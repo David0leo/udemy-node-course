@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const utils = require('./utils');
+
 console.log('\x1b[36m%s\x1b[0m', 'Starting notes.js');
 
 const fetchNotes = () => {
@@ -26,20 +28,28 @@ const addNote = (title, body) => {
 		notes.push(note);
 		saveNotes(notes);
 		return note;
-	} else {
-		console.log(
-			'\x1b[31m%s\x1b[0m',
-			'Note with that tile exists! Note not added.'
-		);
 	}
 };
 
-const getAll = () => {
-	console.log('Getting all notes...');
+const logNote = note => {
+	utils.logMessage({
+		...note,
+		options: {
+			upperCaseTitle: false,
+			messageWidth: 20
+		}
+	});
 };
 
+const getAll = () => fetchNotes().forEach(note => logNote(note));
+
 const getNote = title => {
-	console.log('Getting note', title);
+	const notes = fetchNotes();
+	for (let i = 0; i < notes.length; i += 1) {
+		if (notes[i].title === title) {
+			return notes[i];
+		}
+	}
 };
 
 const removeNote = title => {

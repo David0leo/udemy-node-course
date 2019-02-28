@@ -19,11 +19,23 @@ if (command === 'add') {
 				title: 'Note created',
 				body: `Title: ${note.title}\nBody: ${note.body}`
 		  })
-		: logMessage({ title: 'Note not created.' });
+		: logMessage({
+				title: 'Note not created',
+				body: `Note with title, "${title}", already exists.`
+		  });
 } else if (command === 'list') {
 	notes.getAll();
 } else if (command === 'read') {
-	notes.getNote(title);
+	const note = notes.getNote(title);
+	note
+		? logMessage({
+				title: 'Note read',
+				body: `Title: ${note.title}\nBody: ${note.body}`
+		  })
+		: logMessage({
+				title: 'Note not read',
+				body: `Note with title "${title}" not found.`
+		  });
 } else if (command === 'remove') {
 	notes.removeNote(title)
 		? logMessage({ title: 'Note removed' })
