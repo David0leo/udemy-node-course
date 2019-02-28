@@ -9,10 +9,21 @@ const notes = require('./notes');
 const argv = yargs.argv;
 let command = process.argv[2];
 
+const NOTE_CREATED_MESSAGE = note => `Note Created:
+-------------
+Title: ${note.title}
+--
+Body: ${note.body}
+--
+`;
+
 const { title, body } = argv;
 
 if (command === 'add') {
-	notes.addNote(title, body);
+	const note = notes.addNote(title, body);
+	note
+		? console.log('\x1b[35m%s\x1b[0m', NOTE_CREATED_MESSAGE(note))
+		: console.log('\x1b[35m%s\x1b[0m', 'Note not added successfully.');
 } else if (command === 'list') {
 	notes.getAll();
 } else if (command === 'read') {
