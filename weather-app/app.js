@@ -1,11 +1,14 @@
-console.log('Starting');
+const request = require('request');
 
-setTimeout(() => {
-	console.log('2s timer');
-}, 2000);
+const url =
+	'https://api.darksky.net/forecast/1c91e35be6719dcf8a854090c65159a2/53.5444,133.4909';
 
-setTimeout(() => {
-	console.log('0s timer');
-}, 0);
+request({ url, json: true }, (error, response) => {
+	const { temperature, precipProbability } = response.body.currently;
 
-console.log('Stopping');
+	console.log(response.body.currently);
+	console.log(
+		`It is currently ${temperature}°F out. There is a ${precipProbability *
+			100}% change of precipitation.`
+	);
+});
